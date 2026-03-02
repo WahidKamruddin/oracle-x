@@ -1,7 +1,12 @@
+'use client'
+
 import Link from "next/link";
+import { useAuth } from "./providers/authProvider";
 
 const Nav = () => {
-  const isAuthenticated = false;
+  
+  const isAuthenticated = useAuth();
+  
   return (
     <nav className="w-full">
       <ul
