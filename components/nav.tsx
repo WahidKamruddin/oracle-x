@@ -1,7 +1,13 @@
+'use client'
+
 import Link from "next/link";
+import { useAuth } from "./providers/authProvider";
 
 const Nav = () => {
-  const isAuthenticated = false;
+  
+  const isAuthenticated = useAuth().isAuthenticated;
+  console.log(isAuthenticated);
+
   return (
     <nav className="w-full">
       <ul
@@ -22,11 +28,11 @@ const Nav = () => {
           </Link>
         </li>
         <li className="ml-4 mr-8 text-black pb-1 border-transparent border-b-2  hover:border-black hover:duration-700 ">
-          {isAuthenticated ? (
-            <Link href="/dashboard">Account</Link>
-          ) : (
+          {isAuthenticated ? 
+            <Link href="/profile">Account</Link>
+           : 
             <Link href="/login">Login</Link>
-          )}
+          }
         </li>
       </ul>
     </nav>
