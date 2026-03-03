@@ -21,6 +21,8 @@ const loginSchema = z.object({
 export async function login(prevState: any, formData: FormData) {
   const result = loginSchema.safeParse(Object.fromEntries(formData));
 
+  console.log(result);
+  
   if (!result.success) {
     return {
       errors: result.error.flatten().fieldErrors,
