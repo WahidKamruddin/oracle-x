@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 import { decrypt } from "@/lib/session";
 
+
 export async function getCurrentUser() {
   const cookie = (await cookies()).get("session")?.value;
   if (!cookie) return null;
@@ -12,3 +13,4 @@ export async function getCurrentUser() {
     userId: session.userId,
   };
 }
+

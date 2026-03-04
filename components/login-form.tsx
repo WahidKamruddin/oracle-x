@@ -22,6 +22,7 @@ import { Input } from "@/components/ui/input";
 import { useActionState } from "react";
 import { login } from "@/app/(auth)/login/actions";
 import { useFormStatus } from "react-dom";
+import Link from "next/link";
 
 export function LoginForm({
   className,
@@ -102,7 +103,7 @@ export function LoginForm({
               <Field>
                 <SubmitButton />
                 <FieldDescription className="text-center">
-                  Don&apos;t have an account? <a href="#">Sign up</a>
+                  Don&apos;t have an account? <Link href="/register">Sign up</Link>
                 </FieldDescription>
               </Field>
             </FieldGroup>

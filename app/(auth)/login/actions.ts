@@ -1,14 +1,10 @@
 "use server";
 
-import { z } from "zod";
+import prisma from "@/lib/prisma";
 import { createSession, deleteSession } from "@/lib/session";
 import { redirect } from "next/navigation";
+import { z } from "zod";
 
-const testUser = {
-  id: "1",
-  email: "wahidkamruddin101@gmail.com",
-  password: "12345678",
-};
 
 const loginSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }).trim(),
@@ -18,10 +14,9 @@ const loginSchema = z.object({
     .trim(),
 });
 
+
 export async function login(prevState: any, formData: FormData) {
   const result = loginSchema.safeParse(Object.fromEntries(formData));
-
-  console.log(result);
   
   if (!result.success) {
     return {
@@ -31,15 +26,19 @@ export async function login(prevState: any, formData: FormData) {
 
   const { email, password } = result.data;
 
-  if (email !== testUser.email || password !== testUser.password) {
+  const user = await prisma.user.findUnique({
+    where: {email: email},
+  });
+
+  if (!user || password !== user.password) {
     return {
       errors: {
-        email: ["Invalid email or password"],
+        password: ["Invalid email or password"],
       },
     };
   }
 
-  await createSession(testUser.id);
+  await createSession(user.id.toString());
 
   redirect("/");
 }
