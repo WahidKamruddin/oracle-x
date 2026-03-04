@@ -18,6 +18,7 @@ import { Input } from "@/components/ui/input"
 import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
 import { register } from "@/app/(auth)/register/actions"
+import Link from "next/link"
 
 
 export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
@@ -38,7 +39,7 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
           <FieldGroup>
             <Field>
               <FieldLabel htmlFor="name">Full Name</FieldLabel>
-              <Input id="name" type="text" placeholder="John Doe" required />
+              <Input id="name" type="text" placeholder="John Doe" name="name" required />
             </Field>
             <Field>
               <FieldLabel htmlFor="email">Email</FieldLabel>
@@ -78,7 +79,7 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
                   Sign up with Google
                 </Button>
                 <FieldDescription className="px-6 text-center">
-                  Already have an account? <a href="#">Sign in</a>
+                  Already have an account? <Link href="/login">Sign in</Link>
                 </FieldDescription>
               </Field>
             </FieldGroup>

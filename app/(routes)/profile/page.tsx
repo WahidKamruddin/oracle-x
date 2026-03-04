@@ -2,8 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import { logout } from "@/app/(auth)/login/actions";
+
 const ProfilePage = () => {
-    
     const router = useRouter();
 
     const handleLogout = async () =>

@@ -6,7 +6,8 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 
 
-const loginSchema = z.object({
+const registerSchema = z.object({
+  name: z.string().trim(),
   email: z.string().email({ message: "Invalid email address" }).trim(),
   password: z
     .string()
@@ -15,7 +16,7 @@ const loginSchema = z.object({
 });
 
 export async function register(prevState: any, formData: FormData) {
-    const result = loginSchema.safeParse(Object.fromEntries(formData));
+    const result = registerSchema.safeParse(Object.fromEntries(formData));
       
     if (!result.success) {
       return {
@@ -23,7 +24,7 @@ export async function register(prevState: any, formData: FormData) {
       };
     }
 
-    const { email, password } = result.data;
+    const { name, email, password } = result.data;
 
     const userExists = await prisma.user.findUnique({
       where: {email: email},
@@ -40,12 +41,13 @@ export async function register(prevState: any, formData: FormData) {
 
     const user = await prisma.user.create({
       data: {
+        name: name,
         email: email,
         password: password,
       }
     });
 
-    await createSession(user.id.toString());
+    await createSession(user.id);
 
     redirect("/");
 }
