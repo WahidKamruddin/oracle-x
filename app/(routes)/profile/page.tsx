@@ -1,21 +1,27 @@
-'use client'
+import { getCurrentUser } from "@/lib/auth";
+import prisma from "@/lib/prisma";
+import ProfileClient from "./profileClient";
 
-import { useRouter } from "next/navigation";
-import { logout } from "@/app/(auth)/login/actions";
 
-const ProfilePage = () => {
-    const router = useRouter();
+const ProfilePage = async () => {
+    
+    const user = await getCurrentUser();
+    if (!user) throw new Error("Unauthorized");
 
-    const handleLogout = async () =>
-    {
-        await logout();
-        router.push("/login");
-        router.refresh();
+    const userName = await prisma.user.findUnique({
+    where: {
+        id: user.userId,
+    },
+    select: {
+        name: true
     }
+    });
+
+    if (!userName) throw new Error("No User Name");
 
     return ( 
-        <div className="h-screen w-full flex justify-center items-center">
-            <button onClick={() => handleLogout()} className="p-4 bg-red-500">Sign out</button>
+        <div>
+            <ProfileClient name={userName.name}/>
         </div>
      );
 }
