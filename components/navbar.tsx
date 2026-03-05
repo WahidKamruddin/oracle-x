@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { Book, Menu, Sunset, Trees, Zap } from "lucide-react";
 
@@ -79,7 +79,7 @@ interface Navbar1Props {
   };
 }
 
-const Navbar =  ({
+const Navbar = ({
   logo = {
     url: "/",
     src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/shadcnblockscom-icon.svg",
@@ -164,9 +164,8 @@ const Navbar =  ({
   },
   className,
 }: Navbar1Props) => {
-
   const isAuthenticated = useAuth().isAuthenticated;
-  const userInfo = useAuth().userInfo
+  const userInfo = useAuth().userInfo;
 
   const visibleMenu = menu.filter((item) => {
     if (item.title === "Dashboard" && !isAuthenticated) return false;
@@ -180,16 +179,11 @@ const Navbar =  ({
         <nav className="hidden items-center justify-between lg:flex">
           <div className="flex items-center gap-6">
             {/* Logo */}
-            <a href={logo.url} className="flex items-center gap-2">
-              <img
-                src={logo.src}
-                className="max-h-8 dark:invert"
-                alt={logo.alt}
-              />
+            <Link href={logo.url} className="flex items-center gap-2">
               <span className="text-lg font-semibold tracking-tighter">
                 {logo.title}
               </span>
-            </a>
+            </Link>
             <div className="flex items-center">
               <NavigationMenu>
                 <NavigationMenuList>
@@ -201,10 +195,10 @@ const Navbar =  ({
           {!isAuthenticated ? (
             <div className="flex gap-2">
               <Button asChild variant="outline" size="sm">
-                <a href={auth.login.url}>{auth.login.title}</a>
+                <Link href={auth.login.url}>{auth.login.title}</Link>
               </Button>
               <Button asChild size="sm">
-                <a href={auth.signup.url}>{auth.signup.title}</a>
+                <Link href={auth.signup.url}>{auth.signup.title}</Link>
               </Button>
             </div>
           ) : (
@@ -229,7 +223,9 @@ const Navbar =  ({
                       <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                     </Avatar>
                     <div className="grid flex-1 text-left text-sm leading-tight">
-                      <span className="truncate font-medium">{userInfo.name}</span>
+                      <span className="truncate font-medium">
+                        {userInfo.name}
+                      </span>
                       <span className="truncate text-xs text-muted-foreground">
                         {userInfo.email}
                       </span>
@@ -267,13 +263,11 @@ const Navbar =  ({
         <div className="block lg:hidden">
           <div className="flex items-center justify-between">
             {/* Logo */}
-            <a href={logo.url} className="flex items-center gap-2">
-              <img
-                src={logo.src}
-                className="max-h-8 dark:invert"
-                alt={logo.alt}
-              />
-            </a>
+            <Link href={logo.url} className="flex items-center gap-2">
+              <span className="text-lg font-semibold tracking-tighter">
+                {logo.title}
+              </span>
+            </Link>
             <Sheet>
               <SheetTrigger asChild>
                 <Button variant="outline" size="icon">
@@ -283,13 +277,13 @@ const Navbar =  ({
               <SheetContent className="overflow-y-auto">
                 <SheetHeader>
                   <SheetTitle>
-                    <a href={logo.url} className="flex items-center gap-2">
+                    <Link href={logo.url} className="flex items-center gap-2">
                       <img
                         src={logo.src}
                         className="max-h-8 dark:invert"
                         alt={logo.alt}
                       />
-                    </a>
+                    </Link>
                   </SheetTitle>
                 </SheetHeader>
                 <div className="flex flex-col gap-6 p-4">
