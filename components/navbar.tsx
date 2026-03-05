@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { Book, Menu, Sunset, Trees, Zap } from "lucide-react";
 
@@ -48,7 +48,6 @@ import {
   IconNotification,
   IconLogout,
 } from "@tabler/icons-react";
-import { SidebarMenuButton } from "./ui/sidebar";
 
 interface MenuItem {
   title: string;
@@ -80,7 +79,7 @@ interface Navbar1Props {
   };
 }
 
-const Navbar = ({
+const Navbar =  ({
   logo = {
     url: "/",
     src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/shadcnblockscom-icon.svg",
@@ -165,7 +164,9 @@ const Navbar = ({
   },
   className,
 }: Navbar1Props) => {
+
   const isAuthenticated = useAuth().isAuthenticated;
+  const userInfo = useAuth().userInfo
 
   const visibleMenu = menu.filter((item) => {
     if (item.title === "Dashboard" && !isAuthenticated) return false;
@@ -228,9 +229,9 @@ const Navbar = ({
                       <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                     </Avatar>
                     <div className="grid flex-1 text-left text-sm leading-tight">
-                      <span className="truncate font-medium">name</span>
+                      <span className="truncate font-medium">{userInfo.name}</span>
                       <span className="truncate text-xs text-muted-foreground">
-                        email
+                        {userInfo.email}
                       </span>
                     </div>
                   </div>

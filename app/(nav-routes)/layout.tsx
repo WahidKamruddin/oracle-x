@@ -8,8 +8,10 @@ export default function RoutesLayout({
 }) {
   return (
     <div className="w-full">
-        <Navbar className="w-full pl-12 absolute bg-white"/>
-        {children}
+        <Navbar className="w-full pl-12 fixed top-0 bg-white z-50"/>
+        <main className="mt-16">
+          {children}
+        </main>
     </div>
   )
 }

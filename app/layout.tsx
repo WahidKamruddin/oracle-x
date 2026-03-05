@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { getCurrentUser } from "@/lib/auth";
+import getUserInfo, { getCurrentUser } from "@/lib/auth";
 import { AuthProvider } from "@/components/providers/authProvider";
 import "./globals.css";
 
@@ -27,13 +27,14 @@ export default async function RootLayout({
 }>) {
 
   const user = await getCurrentUser();
+  const userInfo = await getUserInfo();
 
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <AuthProvider user={user}>
+        <AuthProvider user={user} userInfo={userInfo}>
           {children}
         </AuthProvider>
       </body>

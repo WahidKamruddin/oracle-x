@@ -9,26 +9,14 @@ import {
 } from "@/components/ui/sidebar"
 
 import data from "./data.json"
-import { getCurrentUser } from "@/lib/auth"
-import prisma from "@/lib/prisma"
+import getUserInfo from "@/lib/auth"
 import { redirect } from "next/navigation"
 
 export default async function Page() {
 
-  const user = await getCurrentUser();
-    if (!user) redirect('/');
+  const userInfo = await getUserInfo()
 
-    const userInfo = await prisma.user.findUnique({
-    where: {
-        id: user.userId,
-    },
-    select: {
-        name: true,
-        email: true
-    }
-    });
-
-    if (!userInfo) throw new Error("No User Info")
+  if (!userInfo) redirect('/')
 
   return (
     <SidebarProvider
