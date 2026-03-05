@@ -11,11 +11,12 @@ import {
 import data from "./data.json"
 import { getCurrentUser } from "@/lib/auth"
 import prisma from "@/lib/prisma"
+import { redirect } from "next/navigation"
 
 export default async function Page() {
 
   const user = await getCurrentUser();
-    if (!user) throw new Error("Unauthorized");
+    if (!user) redirect('/');
 
     const userInfo = await prisma.user.findUnique({
     where: {
@@ -28,8 +29,6 @@ export default async function Page() {
     });
 
     if (!userInfo) throw new Error("No User Info")
-
-      console.log(userInfo)
 
   return (
     <SidebarProvider

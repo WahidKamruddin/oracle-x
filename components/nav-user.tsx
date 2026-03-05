@@ -28,7 +28,8 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
-
+import Link from "next/link"
+import { logout } from "@/app/(auth)/login/actions"
 export function NavUser({
   user,
 }: {
@@ -84,10 +85,12 @@ export function NavUser({
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
+              <Link href='/profile'>
               <DropdownMenuItem>
                 <IconUserCircle />
                 Account
               </DropdownMenuItem>
+              </Link>
               <DropdownMenuItem>
                 <IconCreditCard />
                 Billing
@@ -98,7 +101,7 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={logout}>
               <IconLogout />
               Log out
             </DropdownMenuItem>
