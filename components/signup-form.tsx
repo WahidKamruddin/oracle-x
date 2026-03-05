@@ -17,7 +17,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
-import { register } from "@/app/(auth)/register/actions"
+import { register } from "@/app/register/actions"
 import Link from "next/link"
 
 

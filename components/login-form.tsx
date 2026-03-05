@@ -20,7 +20,7 @@ import {
 import { Input } from "@/components/ui/input";
 
 import { useActionState } from "react";
-import { login } from "@/app/(auth)/login/actions";
+import { login } from "@/app/login/actions";
 import { useFormStatus } from "react-dom";
 import Link from "next/link";
 

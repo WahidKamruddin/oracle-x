@@ -6,7 +6,6 @@ import { useAuth } from "./providers/authProvider";
 const Nav = () => {
   
   const isAuthenticated = useAuth().isAuthenticated;
-  console.log(isAuthenticated);
 
   return (
     <nav className="w-full">

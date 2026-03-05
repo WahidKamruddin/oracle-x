@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter } from "next/navigation";
-import { logout } from "@/app/(auth)/login/actions";
+import { logout } from "@/app/login/actions";
 
 type ProfileClientProps = {
     name: string;
