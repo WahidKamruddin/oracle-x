@@ -8,7 +8,7 @@ const ProfilePage = async () => {
     const user = await getCurrentUser();
     if (!user) throw new Error("Unauthorized");
 
-    const userName = await prisma.user.findUnique({
+    const userInfo = await prisma.user.findUnique({
     where: {
         id: user.userId,
     },
@@ -17,11 +17,11 @@ const ProfilePage = async () => {
     }
     });
 
-    if (!userName) throw new Error("No User Name");
+    if (!userInfo) throw new Error("No User Info");
 
     return ( 
         <div>
-            <ProfileClient name={userName.name}/>
+            <ProfileClient name={userInfo.name}/>
         </div>
      );
 }
