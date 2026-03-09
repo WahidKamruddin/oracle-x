@@ -1,6 +1,6 @@
-import { IconTrendingDown, IconTrendingUp } from "@tabler/icons-react"
+import { IconTrendingDown, IconTrendingUp } from "@tabler/icons-react";
 
-import { Badge } from "@/components/ui/badge"
+import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardAction,
@@ -8,45 +8,75 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
+import { formatCurrency, formatPercent, isPositive } from "@/lib/utils";
 
-export function SectionCards() {
+export async function SectionCards() {
+  const res = await fetch("https://api.coingecko.com/api/v3/global", {
+    headers: {
+      "x-cg-demo-api-key": process.env.COINGECKO_API_KEY!,
+      Accept: "application/json",
+    },
+  });
+
+  const unformattedData = await res.json();
+  const data = unformattedData.data;
+
+  if (!data) throw Error('API Not Fetching');
+
   return (
-    <div className="grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4 dark:*:data-[slot=card]:bg-card">
-      <Card className="@container/card">
+    <div className="grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-5 @5xl/main:grid-cols-5 dark:*:data-[slot=card]:bg-card">
+      <Card className="@container/card col-span-2">
         <CardHeader>
-          <CardDescription>Total Revenue</CardDescription>
-          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            $1,250.00
-          </CardTitle>
-          <CardAction>
-            <Badge variant="outline">
-              <IconTrendingUp />
-              +12.5%
+          <div className="flex w-full justify-between">
+            <CardDescription>Market Cap</CardDescription>
+            <Badge
+              variant="outline"
+              className={
+                isPositive(data.volume_change_percentage_24h_usd)
+                  ? "bg-green-300"
+                  : "bg-red-300"
+              }
+            >
+              {isPositive(data.market_cap_change_percentage_24h_usd)?<IconTrendingUp /> :<IconTrendingDown/>}
+              {formatPercent(data.market_cap_change_percentage_24h_usd)}
             </Badge>
-          </CardAction>
+          </div>
+
+          <CardTitle className="text-2xl font-semibold tabular-nums @[300px]/card:text-3xl">
+            {formatCurrency(data.total_market_cap.usd)}
+          </CardTitle>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
             Trending up this month <IconTrendingUp className="size-4" />
           </div>
-          <div className="text-muted-foreground">
-            Visitors for the last 6 months
-          </div>
+          <div className="text-muted-foreground">Revenue for your coins</div>
         </CardFooter>
       </Card>
-      <Card className="@container/card">
+      <Card className="@container/card col-span-2">
         <CardHeader>
-          <CardDescription>New Customers</CardDescription>
-          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            1,234
-          </CardTitle>
-          <CardAction>
-            <Badge variant="outline">
-              <IconTrendingDown />
-              -20%
+          <div className="flex w-full justify-between">
+            <CardDescription>24hr Trading Volume</CardDescription>
+            <Badge
+              variant="outline"
+              className={
+                isPositive(data.volume_change_percentage_24h_usd)
+                  ? "bg-green-300"
+                  : "bg-red-300"
+              }
+            >
+              {isPositive(data.volume_change_percentage_24h_usd) ? (
+                <IconTrendingUp />
+              ) : (
+                <IconTrendingDown />
+              )}
+              {formatPercent(data.volume_change_percentage_24h_usd)}
             </Badge>
-          </CardAction>
+          </div>
+          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
+            {formatCurrency(data.total_volume.usd)}
+          </CardTitle>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
@@ -59,36 +89,13 @@ export function SectionCards() {
       </Card>
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>Active Accounts</CardDescription>
-          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            45,678
-          </CardTitle>
-          <CardAction>
-            <Badge variant="outline">
-              <IconTrendingUp />
-              +12.5%
-            </Badge>
-          </CardAction>
-        </CardHeader>
-        <CardFooter className="flex-col items-start gap-1.5 text-sm">
-          <div className="line-clamp-1 flex gap-2 font-medium">
-            Strong user retention <IconTrendingUp className="size-4" />
+          <div className="flex w-full justify-between">
+            <CardDescription>Your Coins</CardDescription>
+            
           </div>
-          <div className="text-muted-foreground">Engagement exceed targets</div>
-        </CardFooter>
-      </Card>
-      <Card className="@container/card">
-        <CardHeader>
-          <CardDescription>Growth Rate</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
             4.5%
           </CardTitle>
-          <CardAction>
-            <Badge variant="outline">
-              <IconTrendingUp />
-              +4.5%
-            </Badge>
-          </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
@@ -98,5 +105,5 @@ export function SectionCards() {
         </CardFooter>
       </Card>
     </div>
-  )
+  );
 }

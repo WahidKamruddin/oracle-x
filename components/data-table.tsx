@@ -336,6 +336,8 @@ function DraggableRow({ row }: { row: Row<z.infer<typeof schema>> }) {
   )
 }
 
+//import pagination with API (would need to call a server action?)
+
 export function DataTable({
   data: initialData,
 }: {

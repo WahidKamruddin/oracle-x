@@ -26,20 +26,7 @@ const menudata = [
     userComment: 'Every dish is crafted with care. This place never disappoints!',
     userAvatar: 'https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-57.png'
   },
-  {
-    id: 4,
-    img: 'https://cdn.shadcnstudio.com/ss-assets/template/landing-page/bistro/image-05.png',
-    imgAlt: 'plate-4',
-    userComment: 'Great atmosphere and incredible flavors. A must-visit restaurant!',
-    userAvatar: 'https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-58.png'
-  },
-  {
-    id: 5,
-    img: 'https://cdn.shadcnstudio.com/ss-assets/template/landing-page/bistro/image-20.png',
-    imgAlt: 'plate-3',
-    userComment: 'Every dish is crafted with care. This place never disappoints!',
-    userAvatar: 'https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-57.png'
-  }
+
 ]
 
 const features = [

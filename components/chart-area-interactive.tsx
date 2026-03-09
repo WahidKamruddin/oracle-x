@@ -140,6 +140,9 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
+
+//candlestick chart?
+
 export function ChartAreaInteractive() {
   const isMobile = useIsMobile()
   const [timeRange, setTimeRange] = React.useState("90d")
