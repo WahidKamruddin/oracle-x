@@ -4,6 +4,7 @@ import prisma from "@/lib/prisma";
 import { createSession } from "@/lib/session";
 import { redirect } from "next/navigation";
 import { z } from "zod";
+import bcrypt from "bcryptjs";
 
 
 const registerSchema = z.object({
@@ -39,11 +40,13 @@ export async function register(prevState: any, formData: FormData) {
     };
   
 
+    const hashedPassword = await bcrypt.hash(password, 12);
+
     const user = await prisma.user.create({
       data: {
         name: name,
         email: email,
-        password: password,
+        password: hashedPassword,
       }
     });
 

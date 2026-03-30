@@ -4,6 +4,7 @@ import prisma from "@/lib/prisma";
 import { createSession, deleteSession } from "@/lib/session";
 import { redirect } from "next/navigation";
 import { z } from "zod";
+import bcrypt from "bcryptjs";
 
 
 const loginSchema = z.object({
@@ -30,7 +31,9 @@ export async function login(prevState: any, formData: FormData) {
     where: {email: email},
   });
 
-  if (!user || password !== user.password) {
+  const passwordMatch = user ? await bcrypt.compare(password, user.password) : false;
+
+  if (!user || !passwordMatch) {
     return {
       errors: {
         password: ["Invalid email or password"],
