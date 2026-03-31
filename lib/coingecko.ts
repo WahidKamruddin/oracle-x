@@ -35,3 +35,34 @@ export async function getCoinsByIds(ids: string[]): Promise<CoinMarket[]> {
   if (!res.ok) return []
   return res.json()
 }
+
+export type PricePoint = { date: string; [coinId: string]: number | string }
+
+async function fetchCoinHistory(id: string): Promise<[number, number][]> {
+  const res = await fetch(
+    `${BASE_URL}/coins/${id}/market_chart?vs_currency=usd&days=90&interval=daily`,
+    { headers, next: { revalidate: 3600 } }
+  )
+  if (!res.ok) return []
+  const json = await res.json()
+  return json.prices ?? []
+}
+
+export async function getCoinPriceHistories(ids: string[]): Promise<PricePoint[]> {
+  if (ids.length === 0) return []
+
+  const histories = await Promise.all(ids.map(fetchCoinHistory))
+
+  const byDate = new Map<string, Record<string, number>>()
+  for (let i = 0; i < ids.length; i++) {
+    for (const [ms, price] of histories[i]) {
+      const date = new Date(ms).toISOString().split("T")[0]
+      if (!byDate.has(date)) byDate.set(date, {})
+      byDate.get(date)![ids[i]] = price
+    }
+  }
+
+  return Array.from(byDate.entries())
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([date, prices]) => ({ date, ...prices }))
+}

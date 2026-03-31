@@ -1,5 +1,5 @@
 import { AppSidebar } from "@/components/app-sidebar"
-import { ChartAreaInteractive } from "@/components/chart-area-interactive"
+import { ChartAreaInteractive, type ChartCoin } from "@/components/chart-area-interactive"
 import { CoinsTable } from "@/components/coins-table"
 import { SectionCards } from "@/components/section-cards"
 import { SiteHeader } from "@/components/site-header"
@@ -9,20 +9,37 @@ import {
 } from "@/components/ui/sidebar"
 
 import { getUser } from "@/lib/auth"
-import { getTopCoins } from "@/lib/coingecko"
+import { getCoinPriceHistories, getTopCoins } from "@/lib/coingecko"
 import { redirect } from "next/navigation"
 import { getFavoriteIds } from "./actions"
 
+const CHART_COLORS = ["#6366f1", "#22c55e", "#f97316"]
+
 export default async function Page() {
-
   const user = await getUser()
-
   if (!user) redirect("/")
 
   const [coins, favoriteIds] = await Promise.all([
     getTopCoins(50),
     getFavoriteIds(),
   ])
+
+  // Chart coins: up to 3 favorites, or top 3 by price if no favorites
+  const chartCoinIds = favoriteIds.length > 0
+    ? favoriteIds.slice(0, 3)
+    : [...coins].sort((a, b) => b.current_price - a.current_price).slice(0, 3).map(c => c.id)
+
+  const priceHistory = await getCoinPriceHistories(chartCoinIds)
+
+  const chartCoins: ChartCoin[] = chartCoinIds.map((id, i) => {
+    const coin = coins.find(c => c.id === id)
+    return {
+      id,
+      name: coin?.name ?? id,
+      symbol: coin?.symbol ?? id,
+      color: CHART_COLORS[i],
+    }
+  })
 
   return (
     <SidebarProvider
@@ -41,7 +58,7 @@ export default async function Page() {
             <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
               <SectionCards />
               <div className="px-4 lg:px-6">
-                <ChartAreaInteractive />
+                <ChartAreaInteractive data={priceHistory} coins={chartCoins} />
               </div>
               <CoinsTable coins={coins} initialFavoriteIds={favoriteIds} />
             </div>
