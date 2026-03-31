@@ -12,6 +12,11 @@
 
 # testing
 /coverage
+/test-results/
+/playwright-report/
+/prisma/test.db
+/prisma/test.db-wal
+/prisma/test.db-shm
 
 # next.js
 /.next/
@@ -31,7 +36,7 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # env files (can opt-in for committing if needed)
-.env*
+.env
 
 # vercel
 .vercel
