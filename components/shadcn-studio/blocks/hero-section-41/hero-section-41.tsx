@@ -6,7 +6,6 @@ import { ArrowRightIcon } from "lucide-react";
 
 import Autoplay from "embla-carousel-autoplay";
 
-import { Separator } from "@/components/ui/separator";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -23,8 +22,7 @@ export type MenuData = {
   id: number;
   img: string;
   imgAlt: string;
-  userAvatar: string;
-  userComment: string;
+  title: string;
 };
 
 const HeroSection = ({ menudata }: { menudata: MenuData[] }) => {
@@ -214,25 +212,7 @@ const HeroSection = ({ menudata }: { menudata: MenuData[] }) => {
               loop: true,
             }}
           >
-            <CarouselContent>
-              {menudata.map((item) => (
-                <CarouselItem
-                  key={item.id}
-                  className="flex h-full min-h-14 w-full justify-center gap-4 px-6 lg:items-center"
-                >
-                  <img
-                    src={item.userAvatar}
-                    alt={item.imgAlt}
-                    className="border-background size-10 rounded-full border-4 drop-shadow-lg"
-                  />
-                  <Separator
-                    orientation="vertical"
-                    className="bg-primary hidden !h-6 !w-0.5 !rounded-full sm:block"
-                  />
-                  <p className="text-card-foreground">{item.userComment}</p>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
+            
           </Carousel>
         </div>
       </div>

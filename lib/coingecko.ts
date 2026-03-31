@@ -17,6 +17,23 @@ const headers = {
   Accept: "application/json",
 }
 
+export type GlobalMarketData = {
+  total_market_cap: { usd: number }
+  total_volume: { usd: number }
+  market_cap_change_percentage_24h_usd: number
+  volume_change_percentage_24h_usd: number
+}
+
+export async function getGlobalMarketData(): Promise<GlobalMarketData | null> {
+  const res = await fetch(`${BASE_URL}/global`, {
+    headers,
+    next: { revalidate: 60 },
+  })
+  if (!res.ok) return null
+  const json = await res.json()
+  return json.data ?? null
+}
+
 export async function getTopCoins(limit = 50): Promise<CoinMarket[]> {
   const res = await fetch(
     `${BASE_URL}/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=${limit}&page=1`,

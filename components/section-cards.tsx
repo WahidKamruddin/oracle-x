@@ -3,29 +3,17 @@ import { IconTrendingDown, IconTrendingUp } from "@tabler/icons-react";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
-  CardAction,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
+  CardDescription,
 } from "@/components/ui/card";
 import { formatCurrency, formatPercent, isPositive } from "@/lib/utils";
+import type { GlobalMarketData } from "@/lib/coingecko";
 
-export async function SectionCards() {
-  const res = await fetch("https://api.coingecko.com/api/v3/global", {
-    headers: {
-      "x-cg-demo-api-key": process.env.COINGECKO_API_KEY!,
-      Accept: "application/json",
-    },
-  });
-
-  const unformattedData = await res.json();
-  const data = unformattedData.data;
-
-  if (!data) throw Error('API Not Fetching');
-
+export function SectionCards({ data }: { data: GlobalMarketData }) {
   return (
-    <div className="grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-5 @5xl/main:grid-cols-5 dark:*:data-[slot=card]:bg-card">
+    <div className="grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-linear-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-5 @5xl/main:grid-cols-5 dark:*:data-[slot=card]:bg-card">
       <Card className="@container/card col-span-2">
         <CardHeader>
           <div className="flex w-full justify-between">
@@ -33,16 +21,19 @@ export async function SectionCards() {
             <Badge
               variant="outline"
               className={
-                isPositive(data.volume_change_percentage_24h_usd)
+                isPositive(data.market_cap_change_percentage_24h_usd)
                   ? "bg-green-300"
                   : "bg-red-300"
               }
             >
-              {isPositive(data.market_cap_change_percentage_24h_usd)?<IconTrendingUp /> :<IconTrendingDown/>}
+              {isPositive(data.market_cap_change_percentage_24h_usd) ? (
+                <IconTrendingUp />
+              ) : (
+                <IconTrendingDown />
+              )}
               {formatPercent(data.market_cap_change_percentage_24h_usd)}
             </Badge>
           </div>
-
           <CardTitle className="text-2xl font-semibold tabular-nums @[300px]/card:text-3xl">
             {formatCurrency(data.total_market_cap.usd)}
           </CardTitle>
@@ -54,6 +45,7 @@ export async function SectionCards() {
           <div className="text-muted-foreground">Revenue for your coins</div>
         </CardFooter>
       </Card>
+
       <Card className="@container/card col-span-2">
         <CardHeader>
           <div className="flex w-full justify-between">
@@ -87,12 +79,10 @@ export async function SectionCards() {
           </div>
         </CardFooter>
       </Card>
+
       <Card className="@container/card">
         <CardHeader>
-          <div className="flex w-full justify-between">
-            <CardDescription>Your Coins</CardDescription>
-            
-          </div>
+          <CardDescription>Your Coins</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
             4.5%
           </CardTitle>

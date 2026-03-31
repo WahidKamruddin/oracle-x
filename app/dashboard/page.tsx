@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/sidebar"
 
 import { getUser } from "@/lib/auth"
-import { getCoinPriceHistories, getTopCoins } from "@/lib/coingecko"
+import { getCoinPriceHistories, getGlobalMarketData, getTopCoins } from "@/lib/coingecko"
 import { redirect } from "next/navigation"
 import { getFavoriteIds } from "./actions"
 
@@ -19,9 +19,10 @@ export default async function Page() {
   const user = await getUser()
   if (!user) redirect("/")
 
-  const [coins, favoriteIds] = await Promise.all([
+  const [coins, favoriteIds, globalData] = await Promise.all([
     getTopCoins(50),
     getFavoriteIds(),
+    getGlobalMarketData(),
   ])
 
   // Chart coins: up to 3 favorites, or top 3 by price if no favorites
@@ -56,7 +57,7 @@ export default async function Page() {
         <div className="flex flex-1 flex-col">
           <div className="@container/main flex flex-1 flex-col gap-2">
             <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-              <SectionCards />
+              {globalData && <SectionCards data={globalData} />}
               <div className="px-4 lg:px-6">
                 <ChartAreaInteractive data={priceHistory} coins={chartCoins} />
               </div>

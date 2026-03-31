@@ -7,24 +7,21 @@ import CTASection from '@/components/shadcn-studio/blocks/cta-section-10/cta-sec
 const menudata = [
   {
     id: 1,
-    img: 'https://cdn.shadcnstudio.com/ss-assets/template/landing-page/bistro/image-18.png',
-    imgAlt: 'plate-1',
-    userComment: 'The ambiance is perfect and the food is absolutely delicious. Highly recommended!',
-    userAvatar: 'https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-56.png'
+    img: 'https://1000logos.net/wp-content/uploads/2018/05/Bitcoin-Logo-1536x864.png',
+    imgAlt: 'btc-logo',
+    title: 'Bitcoin',
   },
   {
     id: 2,
-    img: 'https://cdn.shadcnstudio.com/ss-assets/template/landing-page/bistro/image-19.png',
-    imgAlt: 'plate-2',
-    userComment: 'Best dining experience in town. The staff is friendly and the menu is exceptional.',
-    userAvatar: 'https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-46.png'
+    img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJDn0ojTITvcdAzMsfBMJaZC4STaDHzduleQ&s',
+    imgAlt: 'eth-logo',
+    title: 'Etherium',
   },
   {
     id: 3,
-    img: 'https://cdn.shadcnstudio.com/ss-assets/template/landing-page/bistro/image-20.png',
-    imgAlt: 'plate-3',
-    userComment: 'Every dish is crafted with care. This place never disappoints!',
-    userAvatar: 'https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-57.png'
+    img: 'https://cdn.vectorstock.com/i/500p/63/71/tether-symbol-icon-usdt-logo-crypto-vector-41056371.jpg',
+    imgAlt: 'tether-logo',
+    title: 'Tether',
   },
 
 ]
