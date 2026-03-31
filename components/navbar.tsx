@@ -164,8 +164,7 @@ const Navbar = ({
   },
   className,
 }: Navbar1Props) => {
-  const isAuthenticated = useAuth().isAuthenticated;
-  const userInfo = useAuth().userInfo;
+  const { isAuthenticated, user } = useAuth();
 
   const visibleMenu = menu.filter((item) => {
     if (item.title === "Dashboard" && !isAuthenticated) return false;
@@ -224,10 +223,10 @@ const Navbar = ({
                     </Avatar>
                     <div className="grid flex-1 text-left text-sm leading-tight">
                       <span className="truncate font-medium">
-                        {userInfo.name}
+                        {user?.name}
                       </span>
                       <span className="truncate text-xs text-muted-foreground">
-                        {userInfo.email}
+                        {user?.email}
                       </span>
                     </div>
                   </div>
@@ -315,9 +314,9 @@ const Navbar = ({
                             </AvatarFallback>
                           </Avatar>
                           <div className="grid flex-1 text-left text-sm leading-tight">
-                            <span className="truncate font-medium">name</span>
+                            <span className="truncate font-medium">{user?.name}</span>
                             <span className="truncate text-xs text-muted-foreground">
-                              hi
+                              {user?.email}
                             </span>
                           </div>
                           <IconDotsVertical className="ml-auto size-4" />
@@ -337,9 +336,9 @@ const Navbar = ({
                               </AvatarFallback>
                             </Avatar>
                             <div className="grid flex-1 text-left text-sm leading-tight">
-                              <span className="truncate font-medium">name</span>
+                              <span className="truncate font-medium">{user?.name}</span>
                               <span className="truncate text-xs text-muted-foreground">
-                                email
+                                {user?.email}
                               </span>
                             </div>
                           </div>

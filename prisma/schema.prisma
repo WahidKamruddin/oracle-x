@@ -8,16 +8,35 @@ datasource db {
 }
 
 model User {
-  id       String     @id @default(cuid())
-  email    String  @unique
-  password String
-  name     String
-  tokens   Token[]
+  id        String     @id @default(cuid())
+  email     String     @unique
+  password  String
+  name      String
+  tokens    Token[]
+  favorites Favorite[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model Favorite {
+  id        Int      @id @default(autoincrement())
+  coinId    String
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, coinId])
+  @@index([userId])
 }
 
 model Token {
-  id     Int    @id @default(autoincrement())
-  name   String
-  userId String
-  user   User   @relation(fields: [userId], references: [id])
+  id        Int      @id @default(autoincrement())
+  name      String
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
 }

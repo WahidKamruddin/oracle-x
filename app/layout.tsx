@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import getUserInfo, { getCurrentUser } from "@/lib/auth";
+import { getUser } from "@/lib/auth";
 import { AuthProvider } from "@/components/providers/authProvider";
 import "./globals.css";
 
@@ -19,22 +19,19 @@ export const metadata: Metadata = {
   description: "Cryptocoin Tracker",
 };
 
-
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
-  const user = await getCurrentUser();
-  const userInfo = await getUserInfo();
+  const user = await getUser();
 
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <AuthProvider user={user} userInfo={userInfo}>
+        <AuthProvider user={user}>
           {children}
         </AuthProvider>
       </body>

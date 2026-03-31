@@ -16,6 +16,7 @@ import {
   IconReport,
   IconSearch,
   IconSettings,
+  IconStar,
   IconUsers,
 } from "@tabler/icons-react"
 
@@ -40,6 +41,11 @@ const data = {
       title: "Dashboard",
       url: "/dashboard",
       icon: IconDashboard,
+    },
+    {
+      title: "Favorites",
+      url: "/dashboard/favorites",
+      icon: IconStar,
     },
     {
       title: "Lifecycle",

@@ -5,6 +5,7 @@ import { createSession, deleteSession } from "@/lib/session";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import bcrypt from "bcryptjs";
+import type { FormState } from "@/lib/types";
 
 
 const loginSchema = z.object({
@@ -16,19 +17,20 @@ const loginSchema = z.object({
 });
 
 
-export async function login(prevState: any, formData: FormData) {
+export async function login(prevState: FormState, formData: FormData) {
   const result = loginSchema.safeParse(Object.fromEntries(formData));
-  
+
   if (!result.success) {
     return {
       errors: result.error.flatten().fieldErrors,
     };
   }
 
-  const { email, password } = result.data;
+  const { email: rawEmail, password } = result.data;
+  const email = rawEmail.toLowerCase();
 
   const user = await prisma.user.findUnique({
-    where: {email: email},
+    where: { email },
   });
 
   const passwordMatch = user ? await bcrypt.compare(password, user.password) : false;
@@ -49,8 +51,7 @@ export async function login(prevState: any, formData: FormData) {
 export async function logout() {
   try {
     await deleteSession();
-  }
-  catch {
-    throw(Error);
+  } catch {
+    throw new Error("Logout failed");
   }
 }
